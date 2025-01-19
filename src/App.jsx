@@ -47,4 +47,35 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-export default function App() {}
+export default function App() {
+  return (
+    <>
+      <NavBar>
+        <Logo />
+        <Search />
+        <NumResults />
+      </NavBar>
+    </>
+  );
+}
+
+const NavBar = ({ children }) => {
+  return <nav className="nav-bar">{children}</nav>;
+};
+
+const Logo = () => {
+  return (
+    <div className="logo">
+      <span>🍿</span>
+      <h1>usePopcorn</h1>
+    </div>
+  );
+};
+
+const Search = () => {
+  return <input type="text" className="search" placeholder="Search Movies" />;
+};
+
+const NumResults = () => {
+  return <p className="num-results">Found X result(s)</p>;
+};
