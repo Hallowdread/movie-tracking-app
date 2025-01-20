@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const tempMovieData = [
   {
     imdbID: "tt1375666",
@@ -48,17 +50,25 @@ const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export default function App() {
+  const [movie, setMovie] = useState(tempMovieData);
   return (
     <>
       <NavBar>
         <Logo />
         <Search />
-        <NumResults />
+        <NumResults movie={movie} />
       </NavBar>
+
+      <Main>
+        <Box>
+          <MovieList movie={movie} />
+        </Box>
+      </Main>
     </>
   );
 }
 
+//?
 const NavBar = ({ children }) => {
   return <nav className="nav-bar">{children}</nav>;
 };
@@ -71,11 +81,57 @@ const Logo = () => {
     </div>
   );
 };
-
+//
 const Search = () => {
   return <input type="text" className="search" placeholder="Search Movies" />;
 };
+//
+const NumResults = ({ movie }) => {
+  return <p className="num-results">Found {movie.length} result(s)</p>;
+};
 
-const NumResults = () => {
-  return <p className="num-results">Found X result(s)</p>;
+// ?
+const Main = ({ children }) => {
+  return <main className="main">{children}</main>;
+};
+
+const Box = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  //
+  function handleToggle() {
+    setIsOpen((open) => !open);
+  }
+  return (
+    <div className="box">
+      <div className="btn-toggle" onClick={handleToggle}>
+        {isOpen ? "-" : "+"}
+      </div>
+      {isOpen && children}
+    </div>
+  );
+};
+
+const MovieList = ({ movie }) => {
+  return (
+    <ul className="list list-movies">
+      {movie.map((movie) => (
+        <Movie key={movie.imdbID} movie={movie} />
+      ))}
+    </ul>
+  );
+};
+
+const Movie = ({ movie }) => {
+  return (
+    <li>
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>📅</span>
+          <span>{movie.Year}</span>
+        </p>
+      </div>
+    </li>
+  );
 };
