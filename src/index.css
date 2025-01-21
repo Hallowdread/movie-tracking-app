@@ -345,7 +345,7 @@ body {
 }
 
 /* Media Queries for Responsiveness */
-/* @media screen and (min-width: 768px) {
+@media screen and (min-width: 768px) {
   .main {
     flex-direction: row;
   }
@@ -368,11 +368,30 @@ body {
     font-size: 50%;
   }
 
-  .logo h1 {
-    display: none;
+  .nav-bar {
+    justify-content: center;
   }
 
   .summary div {
     gap: 1.2rem;
   }
-} */
+
+  .main {
+    flex-direction: column;
+    margin: 0 auto;
+  }
+  .box {
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 385px) {
+  .box {
+    width: 100%;
+  }
+
+  .main {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}
