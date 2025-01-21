@@ -67,6 +67,7 @@ export default function App() {
 
         <Box>
           <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
         </Box>
       </Main>
     </>
@@ -167,5 +168,39 @@ const WatchedSummary = ({ watched }) => {
         </p>
       </div>
     </div>
+  );
+};
+//
+const WatchedMovieList = ({ watched }) => {
+  return (
+    <ul className="list">
+      {watched.map((watched) => (
+        <Watched key={watched.imdbID} watched={watched} />
+      ))}
+    </ul>
+  );
+};
+//
+const Watched = ({ watched }) => {
+  return (
+    <li>
+      <img src={watched.Poster} alt={`${watched.Title} Poster`} />
+      <h3>{watched.Title}</h3>
+      <div>
+        <p>
+          <span>⭐</span>
+          <span>{watched.imdbRating}</span>
+        </p>
+        <p>
+          <span>🌟</span>
+          <span>{watched.userRating}</span>
+        </p>
+        <p>
+          <span>⏳</span>
+          <span>{watched.runtime} minutes</span>
+        </p>
+        <button className="btn-delete">X</button>
+      </div>
+    </li>
   );
 };
