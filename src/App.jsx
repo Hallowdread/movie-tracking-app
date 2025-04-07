@@ -1,4 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import NavBar from "./components/NavBar/NavBar";
+import Logo from "./components/NavBar/Logo";
+import Search from "./components/NavBar/Search";
+import NumResults from "./components/NumResults/NumResults";
+import Main from "./components/Main/Main";
+import Box from "./components/Main/Box";
+import MovieList from "./components/Main/MovieList";
+import WatchedSummary from "./components/Main/WatchedSummary";
+import WatchedMovieList from "./components/Main/WatchedMovieList";
 
 const tempMovieData = [
   {
@@ -48,21 +57,52 @@ const tempWatchedData = [
 ];
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+const key = "81d34371";
 
 export default function App() {
-  const [movie, setMovie] = useState(tempMovieData);
+  const [movie, setMovie] = useState([]);
   const [watched, setWatched] = useState(tempWatchedData);
+  const [query, setQuery] = useState("");
+  const [error, setError] = useState("");
+  //
+  //? UseEffect for getting the movies from the api
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch(
+          `http://www.omdbapi.com/?apikey=${key}&s=${query}`
+        );
+        if (!response.ok) {
+          throw new Error("Something went wrong when fetching the movie");
+        }
+        //
+        const data = await response.json();
+        if (data.Response === "False") {
+          throw new Error("Movie not found");
+        }
+        setMovie(data.Search);
+        setError("");
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+        setMovie([]);
+      }
+    };
+    fetchMovies();
+  }, [query]);
+  //
   return (
     <>
       <NavBar>
         <Logo />
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movie={movie} />
       </NavBar>
 
       <Main>
         <Box>
           <MovieList movie={movie} />
+          {/* {error && <ErrorMessage message={error}/>} */}
         </Box>
 
         <Box>
@@ -74,133 +114,4 @@ export default function App() {
   );
 }
 
-//?
-const NavBar = ({ children }) => {
-  return <nav className="nav-bar">{children}</nav>;
-};
-
-const Logo = () => {
-  return (
-    <div className="logo">
-      <span>🍿</span>
-      <h1>usePopcorn</h1>
-    </div>
-  );
-};
-//
-const Search = () => {
-  return <input type="text" className="search" placeholder="Search Movies" />;
-};
-//
-const NumResults = ({ movie }) => {
-  return <p className="num-results">Found {movie.length} result(s)</p>;
-};
-
 // ?
-const Main = ({ children }) => {
-  return <main className="main">{children}</main>;
-};
-//
-const Box = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(true);
-  //
-  function handleToggle() {
-    setIsOpen((open) => !open);
-  }
-  return (
-    <div className="box">
-      <div className="btn-toggle" onClick={handleToggle}>
-        {isOpen ? "-" : "+"}
-      </div>
-      {isOpen && children}
-    </div>
-  );
-};
-//
-const MovieList = ({ movie }) => {
-  return (
-    <ul className="list list-movies">
-      {movie.map((movie) => (
-        <Movie key={movie.imdbID} movie={movie} />
-      ))}
-    </ul>
-  );
-};
-//
-const Movie = ({ movie }) => {
-  return (
-    <li>
-      <img src={movie.Poster} alt={`${movie.Title} poster`} />
-      <h3>{movie.Title}</h3>
-      <div>
-        <p>
-          <span>📅</span>
-          <span>{movie.Year}</span>
-        </p>
-      </div>
-    </li>
-  );
-};
-//
-const WatchedSummary = ({ watched }) => {
-  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
-  const avgUserRating = average(watched.map((movie) => movie.userRating));
-  const avgRuntime = average(watched.map((movie) => movie.runtime));
-  return (
-    <div className="summary">
-      <h2>Movies You Watched</h2>
-      <div>
-        <p>
-          <span>#️⃣</span>
-          <span>{watched.length} movie(s)</span>
-        </p>
-        <p>
-          <span>⭐️</span>
-          <span>{avgImdbRating}</span>
-        </p>
-        <p>
-          <span>🌟</span>
-          <span>{avgUserRating}</span>
-        </p>
-        <p>
-          <span>⏳</span>
-          <span>{avgRuntime}</span>
-        </p>
-      </div>
-    </div>
-  );
-};
-//
-const WatchedMovieList = ({ watched }) => {
-  return (
-    <ul className="list">
-      {watched.map((watched) => (
-        <Watched key={watched.imdbID} watched={watched} />
-      ))}
-    </ul>
-  );
-};
-//
-const Watched = ({ watched }) => {
-  return (
-    <li>
-      <img src={watched.Poster} alt={`${watched.Title} Poster`} />
-      <h3>{watched.Title}</h3>
-      <div>
-        <p>
-          <span>⭐</span>
-          <span>{watched.imdbRating}</span>
-        </p>
-        <p>
-          <span>🌟</span>
-          <span>{watched.userRating}</span>
-        </p>
-        <p>
-          <span>⏳</span>
-          <span>{watched.runtime} minutes</span>
-        </p>
-        <button className="btn-delete">X</button>
-      </div>
-    </li>
-  );
-};
