@@ -1,0 +1,52 @@
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 160px auto;
+}
+
+.loader {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.loader-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 3px solid transparent;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+.loader-ring:nth-child(2) {
+  border-top-color: transparent;
+  border-right-color: #8b5cf6;
+  animation-delay: -0.3s;
+}
+
+.loader-ring:nth-child(3) {
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: #ec4899;
+  animation-delay: -0.6s;
+}
+
+.loader-text {
+  color: #e2e8f0;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  margin-top: -30px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

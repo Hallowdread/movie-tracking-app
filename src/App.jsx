@@ -8,6 +8,9 @@ import Box from "./components/Main/Box";
 import MovieList from "./components/Main/MovieList";
 import WatchedSummary from "./components/Main/WatchedSummary";
 import WatchedMovieList from "./components/Main/WatchedMovieList";
+import ErrorMessage from "./components/Main/ErrorMessage";
+import Loader from "./components/Loader/Loader.jsx";
+import "../src/components/Loader/Loader.css";
 
 const tempMovieData = [
   {
@@ -64,11 +67,14 @@ export default function App() {
   const [watched, setWatched] = useState(tempWatchedData);
   const [query, setQuery] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   //
   //? UseEffect for getting the movies from the api
   useEffect(() => {
     const fetchMovies = async () => {
       try {
+        setIsLoading(true);
+        setError("");
         const response = await fetch(
           `http://www.omdbapi.com/?apikey=${key}&s=${query}`
         );
@@ -85,9 +91,16 @@ export default function App() {
       } catch (err) {
         console.error(err);
         setError(err.message);
-        setMovie([]);
+        // setMovie([]);
+      } finally {
+        setIsLoading(false);
       }
     };
+    if (!query.length) {
+      setMovie([]);
+      setError("");
+      return;
+    }
     fetchMovies();
   }, [query]);
   //
@@ -102,7 +115,8 @@ export default function App() {
       <Main>
         <Box>
           <MovieList movie={movie} />
-          {/* {error && <ErrorMessage message={error}/>} */}
+          {error && <ErrorMessage message={error} />}
+          {isLoading && <Loader />}
         </Box>
 
         <Box>
