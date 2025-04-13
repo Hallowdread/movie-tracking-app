@@ -52,6 +52,16 @@ const MovieDetails = ({ selectedId, onAddWatched, onCloseMovie }) => {
     getMoviesDetails();
   }, [selectedId]);
 
+  //? UseEffect to add the movie title to the Page title
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    //? Clean up function
+    return () => {
+      document.title = "usePopcorn";
+    };
+  }, [title]);
+
   return (
     <div className="details">
       {isLoading ? (
