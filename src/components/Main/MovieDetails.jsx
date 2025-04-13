@@ -3,10 +3,16 @@ import Loader from "../Loader/Loader.jsx";
 const key = "81d34371";
 import StarRating from "./StarRating.jsx";
 
-const MovieDetails = ({ selectedId, onAddWatched, onCloseMovie }) => {
+const MovieDetails = ({ selectedId, onAddWatched, onCloseMovie, watched }) => {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState("");
+
+  //? Check if the movie is in the watched list
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find(
+    (movie) => movie.imdbID === selectedId
+  )?.userRating;
 
   //? Destructuring and assigning new varaibles in the movie object
   const {
@@ -109,15 +115,23 @@ const MovieDetails = ({ selectedId, onAddWatched, onCloseMovie }) => {
           {/*  */}
           <section>
             <div className="rating">
-              <StarRating
-                maxRating={10}
-                size={24}
-                onSetRating={setUserRating}
-              />
-              {userRating > 0 && (
-                <button className="btn-add" onClick={handleAdd}>
-                  + Add to List
-                </button>
+              {isWatched ? (
+                <p>
+                  You rated this movie <em>{watchedUserRating}</em>
+                </p>
+              ) : (
+                <>
+                  <StarRating
+                    maxRating={10}
+                    size={24}
+                    onSetRating={setUserRating}
+                  />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to List
+                    </button>
+                  )}
+                </>
               )}
             </div>
             <p>
