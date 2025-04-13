@@ -3,11 +3,12 @@ import Loader from "../Loader/Loader";
 const key = "81d34371";
 import StarRating from "./StarRating.jsx";
 
-const MovieDetails = ({ selectedId }) => {
+const MovieDetails = ({ selectedId, onAddWatched, onCloseMovie }) => {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState("");
 
-  //
+  //? Destructuring and assigning new varaibles in the movie object
   const {
     Title: title,
     Year: year,
@@ -20,6 +21,23 @@ const MovieDetails = ({ selectedId }) => {
     Genre: genre,
     Actors: actors,
   } = movie;
+
+  //? Function to add the movie to the watched list
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      userRating,
+      runtime: Number(runtime.split(" ").at(0)),
+      imdbRating: Number(imdbRating),
+    };
+    onAddWatched(newWatchedMovie);
+    onCloseMovie();
+    console.log(newWatchedMovie);
+  };
+
   //? UseEffect for fetching the movies
   useEffect(() => {
     const getMoviesDetails = async () => {
@@ -32,7 +50,7 @@ const MovieDetails = ({ selectedId }) => {
       setIsLoading(false);
     };
     getMoviesDetails();
-  }, [key, selectedId]);
+  }, [selectedId]);
 
   return (
     <div className="details">
@@ -41,7 +59,7 @@ const MovieDetails = ({ selectedId }) => {
       ) : (
         <>
           <header>
-            <button className="btn-back">
+            <button className="btn-back" onClick={onCloseMovie}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -68,7 +86,23 @@ const MovieDetails = ({ selectedId }) => {
           </header>
           {/*  */}
           <section>
-            <div className="rating"></div>
+            <div className="rating">
+              <StarRating
+                maxRating={10}
+                size={24}
+                onSetRating={setUserRating}
+              />
+              {userRating > 0 && (
+                <button className="btn-add" onClick={handleAdd}>
+                  + Add to List
+                </button>
+              )}
+            </div>
+            <p>
+              <em>{plot}</em>
+            </p>
+            <p>Starring: {actors}</p>
+            <p>Directed by {director}</p>
           </section>
         </>
       )}

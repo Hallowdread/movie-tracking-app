@@ -64,16 +64,6 @@ function StarRating({
   );
 }
 
-//* Protypes
-Star.propTypes = {
-  onRate: PropTypes.func,
-  full: PropTypes.object,
-  color: PropTypes.string,
-  size: PropTypes.number,
-  onHoverIn: PropTypes.func,
-  onHoverOut: PropTypes.func,
-};
-
 const Star = ({ onRate, full, onHoverIn, onHoverOut, color, size }) => {
   const starStyle = {
     width: `${size}px`,
@@ -115,6 +105,16 @@ const Star = ({ onRate, full, onHoverIn, onHoverOut, color, size }) => {
       )}
     </span>
   );
+};
+
+//* Protypes
+Star.propTypes = {
+  onRate: PropTypes.func,
+  full: PropTypes.bool,
+  color: PropTypes.string,
+  size: PropTypes.number,
+  onHoverIn: PropTypes.func,
+  onHoverOut: PropTypes.func,
 };
 
 export default StarRating;

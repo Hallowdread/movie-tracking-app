@@ -1,8 +1,8 @@
 const Watched = ({ watched }) => {
   return (
     <li>
-      <img src={watched.Poster} alt={`${watched.Title} Poster`} />
-      <h3>{watched.Title}</h3>
+      <img src={watched.poster} alt={`${watched.title} Poster`} />
+      <h3>{watched.title}</h3>
       <div>
         <p>
           <span>⭐</span>

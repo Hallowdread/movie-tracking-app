@@ -59,8 +59,6 @@ import "../src/components/Loader/Loader.css";
 //     userRating: 9,
 //   },
 // ];
-const average = (arr) =>
-  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 const key = "81d34371";
 
 export default function App() {
@@ -71,10 +69,19 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  //?
+  //? Selecting the movie with the id
   const handleSelectMovie = (id) => {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
     console.log("this is what i clicked on");
+  };
+
+  //? Adding the watched movie to the watched section
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+  };
+  //? Closing the movie detail section
+  const handleCloseMovie = () => {
+    setSelectedId(null);
   };
   //? UseEffect for getting the movies from the api
   useEffect(() => {
@@ -130,7 +137,12 @@ export default function App() {
 
         <Box>
           {selectedId ? (
-            <MovieDetails selectedId={selectedId} key={key} />
+            <MovieDetails
+              selectedId={selectedId}
+              key={key}
+              onAddWatched={handleAddWatched}
+              onCloseMovie={handleCloseMovie}
+            />
           ) : (
             <>
               <WatchedSummary watched={watched} />

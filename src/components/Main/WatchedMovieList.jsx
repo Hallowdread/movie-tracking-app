@@ -1,4 +1,4 @@
-import Watched from "./Watched";
+import Watched from "./Watched.jsx";
 
 const WatchedMovieList = ({ watched }) => {
   return (
