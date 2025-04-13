@@ -69,28 +69,34 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  //? Selecting the movie with the id
+  //? Function for selecting the movie with the id
   const handleSelectMovie = (id) => {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
     console.log("this is what i clicked on");
   };
-
-  //? Adding the watched movie to the watched section
+  //? Function for adding the watched movie to the watched section
   const handleAddWatched = (movie) => {
     setWatched((watched) => [...watched, movie]);
   };
-  //? Closing the movie detail section
+  //? Function for closing the movie detail section
   const handleCloseMovie = () => {
     setSelectedId(null);
   };
+  //? Function for deleting the watched movie
+  const handleDeleteWatchedMovie = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
   //? UseEffect for getting the movies from the api
   useEffect(() => {
+    const controlller = new AbortController();
+
     const fetchMovies = async () => {
       try {
         setIsLoading(true);
         setError("");
         const response = await fetch(
-          `http://www.omdbapi.com/?apikey=${key}&s=${query}`
+          `http://www.omdbapi.com/?apikey=${key}&s=${query}`,
+          { signal: controlller.signal }
         );
         if (!response.ok) {
           throw new Error("Something went wrong when fetching the movie");
@@ -103,9 +109,10 @@ export default function App() {
         setMovie(data.Search);
         setError("");
       } catch (err) {
-        console.error(err);
-        setError(err.message);
-        // setMovie([]);
+        if (err.name !== "AbortError") {
+          setError(err.message);
+          console.log(err.message);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -115,7 +122,13 @@ export default function App() {
       setError("");
       return;
     }
+    handleCloseMovie();
     fetchMovies();
+
+    //? Clean up function
+    return () => {
+      controlller.abort();
+    };
   }, [query]);
   //
   return (
@@ -146,7 +159,10 @@ export default function App() {
           ) : (
             <>
               <WatchedSummary watched={watched} />
-              <WatchedMovieList watched={watched} />
+              <WatchedMovieList
+                watched={watched}
+                onDeleteMovie={handleDeleteWatchedMovie}
+              />
             </>
           )}
         </Box>
