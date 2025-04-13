@@ -72,7 +72,6 @@ export default function App() {
   //? Function for selecting the movie with the id
   const handleSelectMovie = (id) => {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
-    console.log("this is what i clicked on");
   };
   //? Function for adding the watched movie to the watched section
   const handleAddWatched = (movie) => {

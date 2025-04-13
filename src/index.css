@@ -209,7 +209,7 @@ body {
 .list div {
   display: flex;
   align-items: center;
-  gap: 2.4rem;
+  gap: 1.8rem;
   padding-left: 1rem;
 }
 
@@ -222,7 +222,7 @@ body {
 .btn-delete {
   position: absolute;
   right: 2.4rem;
-
+  margin-left: 2rem;
   height: 1.8rem;
   aspect-ratio: 1;
   border-radius: 50%;
