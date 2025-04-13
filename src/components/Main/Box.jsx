@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const Box = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -15,6 +16,10 @@ const Box = ({ children }) => {
       {isOpen && children}
     </div>
   );
+};
+
+Box.propTypes = {
+  children: PropTypes.node.isRequired, // Validate that children is a React node and required
 };
 
 export default Box;

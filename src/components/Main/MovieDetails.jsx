@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import Loader from "../Loader/Loader.jsx";
-const key = "81d34371";
 import StarRating from "./StarRating.jsx";
+const key = "81d34371";
 
 const MovieDetails = ({ selectedId, onAddWatched, onCloseMovie, watched }) => {
   const [movie, setMovie] = useState({});
@@ -14,7 +15,7 @@ const MovieDetails = ({ selectedId, onAddWatched, onCloseMovie, watched }) => {
     (movie) => movie.imdbID === selectedId
   )?.userRating;
 
-  //? Destructuring and assigning new varaibles in the movie object
+  //? Destructuring and assigning new variables in the movie object
   const {
     Title: title,
     Year: year,
@@ -42,6 +43,7 @@ const MovieDetails = ({ selectedId, onAddWatched, onCloseMovie, watched }) => {
     onAddWatched(newWatchedMovie);
     onCloseMovie();
   };
+
   //? UseEffect for the escape key
   useEffect(() => {
     const callback = (e) => {
@@ -144,6 +146,18 @@ const MovieDetails = ({ selectedId, onAddWatched, onCloseMovie, watched }) => {
       )}
     </div>
   );
+};
+
+MovieDetails.propTypes = {
+  selectedId: PropTypes.string.isRequired, // Validate that selectedId is a required string
+  onAddWatched: PropTypes.func.isRequired, // Validate that onAddWatched is a required function
+  onCloseMovie: PropTypes.func.isRequired, // Validate that onCloseMovie is a required function
+  watched: PropTypes.arrayOf(
+    PropTypes.shape({
+      imdbID: PropTypes.string.isRequired,
+      userRating: PropTypes.number, // Optional user rating
+    })
+  ).isRequired, // Validate that watched is an array of objects with specific properties
 };
 
 export default MovieDetails;

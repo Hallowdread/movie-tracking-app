@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const Watched = ({ watched, onDeleteMovie }) => {
   return (
     <li>
@@ -25,6 +27,18 @@ const Watched = ({ watched, onDeleteMovie }) => {
       </div>
     </li>
   );
+};
+
+Watched.propTypes = {
+  watched: PropTypes.shape({
+    imdbID: PropTypes.string.isRequired,
+    poster: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    imdbRating: PropTypes.number.isRequired,
+    userRating: PropTypes.number.isRequired,
+    runtime: PropTypes.number.isRequired,
+  }).isRequired, // Validate that watched is an object with specific properties
+  onDeleteMovie: PropTypes.func.isRequired, // Validate that onDeleteMovie is a required function
 };
 
 export default Watched;

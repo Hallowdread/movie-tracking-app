@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import NavBar from "./components/NavBar/NavBar";
 import Logo from "./components/NavBar/Logo";
 import Search from "./components/NavBar/Search";
-import NumResults from "./components/NumResults/NumResults";
+import NumResults from "./components/NavBar/NumResults";
 import Main from "./components/Main/Main";
 import Box from "./components/Main/Box";
 import MovieList from "./components/Main/MovieList";
