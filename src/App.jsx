@@ -11,7 +11,6 @@ import WatchedSummary from "./components/Main/WatchedSummary";
 import WatchedMovieList from "./components/Main/WatchedMovieList";
 import ErrorMessage from "./components/Main/ErrorMessage";
 import Loader from "./components/Loader/Loader.jsx";
-import "./src/components/Loader/Loader.css";
 
 // const tempMovieData = [
 //   {
