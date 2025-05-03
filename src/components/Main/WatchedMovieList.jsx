@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import Watched from "./Watched.jsx";
 
-const WatchedMovieList = ({ watched, onDeleteMovie }) => {
+const WatchedMovieList = ({ watched, onDeleteMovie, onSelectMovie }) => {
   return (
     <ul className="list list-movies">
       {watched.map((watched) => (
@@ -9,6 +9,7 @@ const WatchedMovieList = ({ watched, onDeleteMovie }) => {
           key={watched.imdbID}
           watched={watched}
           onDeleteMovie={onDeleteMovie}
+          onSelectMovie={onSelectMovie}
         />
       ))}
     </ul>
@@ -27,6 +28,7 @@ WatchedMovieList.propTypes = {
     })
   ).isRequired, // Validate that watched is an array of objects with specific properties
   onDeleteMovie: PropTypes.func.isRequired, // Validate that onDeleteMovie is a required function
+  onSelectMovie: PropTypes.func.isRequired,
 };
 
 export default WatchedMovieList;

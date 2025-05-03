@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 
-const Watched = ({ watched, onDeleteMovie }) => {
+const Watched = ({ watched, onDeleteMovie, onSelectMovie }) => {
   return (
-    <li>
+    <li onClick={() => onSelectMovie(watched.imdbID)}>
       <img src={watched.poster} alt={`${watched.title} Poster`} />
       <h3>{watched.title}</h3>
       <div>
@@ -39,6 +39,7 @@ Watched.propTypes = {
     runtime: PropTypes.number.isRequired,
   }).isRequired, // Validate that watched is an object with specific properties
   onDeleteMovie: PropTypes.func.isRequired, // Validate that onDeleteMovie is a required function
+  onSelectMovie: PropTypes.func.isRequired, // Validate that onSelectMovie is a required function
 };
 
 export default Watched;

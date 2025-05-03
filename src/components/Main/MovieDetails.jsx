@@ -122,7 +122,7 @@ const MovieDetails = ({ selectedId, onAddWatched, onCloseMovie, watched }) => {
             <div className="rating">
               {isWatched ? (
                 <p>
-                  You rated this movie <em>{watchedUserRating}</em>
+                  You rated this movie<em> {watchedUserRating}</em>
                 </p>
               ) : (
                 <>
