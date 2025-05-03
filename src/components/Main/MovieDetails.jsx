@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Loader from "../Loader/Loader.jsx";
 import StarRating from "./StarRating.jsx";
+import { useKey } from "../../Hooks/useKey.jsx";
 const key = "81d34371";
 
 const MovieDetails = ({ selectedId, onAddWatched, onCloseMovie, watched }) => {
@@ -44,19 +45,21 @@ const MovieDetails = ({ selectedId, onAddWatched, onCloseMovie, watched }) => {
     onCloseMovie();
   };
 
-  //? UseEffect for the escape key
-  useEffect(() => {
-    const callback = (e) => {
-      if (e.code === "Escape") {
-        onCloseMovie();
-      }
-    };
-    document.addEventListener("keydown", callback);
-    //* Clean Up Function
-    return () => {
-      document.removeEventListener("keydown", callback);
-    };
-  }, [onCloseMovie]);
+  useKey("Escape", onCloseMovie);
+  // //? UseEffect for the escape key
+  // useEffect(() => {
+  //   const callback = (e) => {
+  //     if (e.code === "Escape") {
+  //       onCloseMovie();
+  //     }
+  //   };
+  //   document.addEventListener("keydown", callback);
+  //   //* Clean Up Function
+  //   return () => {
+  //     document.removeEventListener("keydown", callback);
+  //   };
+  // }, [onCloseMovie]);
+  //
 
   //? UseEffect for fetching the movies
   useEffect(() => {
