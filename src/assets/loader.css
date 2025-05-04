@@ -50,3 +50,33 @@
     transform: rotate(360deg);
   }
 }
+
+@media screen and (max-width: 768px) {
+  .loader-container {
+    margin: 80px auto;
+  }
+
+  .loader {
+    width: 40px;
+    height: 40px;
+  }
+
+  .loader-text {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .loader-container {
+    margin: 40px auto;
+  }
+
+  .loader {
+    width: 30px;
+    height: 30px;
+  }
+
+  .loader-text {
+    font-size: 12px;
+  }
+}
