@@ -62,12 +62,12 @@ Get usePopcorn up and running in just a few steps:
 
 ### Screenshots
 
-_App Home_
+<!-- _App Home_
 ![Main App](./public/app_home.png)
 _Watch Summary_
 ![Watch Summary](./public/watch_summary.png)
 _Movie Details_
-![Movie Details](./public/movie_details.png)
+![Movie Details](./public/movie_details.png) -->
 
 ## 💻 Technologies Used
 
