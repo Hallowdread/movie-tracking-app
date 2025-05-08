@@ -60,7 +60,7 @@ Get usePopcorn up and running in just a few steps:
 
 </details>
 
-### Screenshots
+<!-- ### Screenshots -->
 
 <!-- _App Home_
 ![Main App](./public/app_home.png)
